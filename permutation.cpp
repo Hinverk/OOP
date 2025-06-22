@@ -15,10 +15,11 @@
 #include "header.cpp"
 #include "header.hpp"
 
-class Solution {
+class Solution1 {
 public:
   int count = 0, used[10];
   char str[10];
+
   int perm(int n, int k, int i) {
     if (i == n) {
       count++;
@@ -49,6 +50,36 @@ public:
     return str;
   }
 };
+
+class Solution {
+public:
+  string getPermutation(int n, int k) {
+    vector<int> nums;
+    for (int i = 1; i <= n; i++)
+      nums.push_back(i);
+
+    int fact = 1;
+    for (int i = 2; i < n; i++)
+      fact *= i; // (n-1)!
+
+    k--; // 0-indexed
+    string res;
+
+    while (!nums.empty()) {
+      int idx = k / fact;
+      res += to_string(nums[idx]);
+      nums.erase(nums.begin() + idx);
+      if (nums.empty())
+        break;
+
+      k %= fact;
+      fact /= nums.size(); // 다음 자리수 기준 갱신
+    }
+
+    return res;
+  }
+};
+
 ////////////////////////////// Main Function //////////////////////////////
 int main(int argc, char *argv[]) {
   fastIO();
